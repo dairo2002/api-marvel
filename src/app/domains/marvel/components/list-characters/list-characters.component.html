@@ -1,24 +1,52 @@
-<div>
+<div class="text-rose-900">
     <h1 class="text-4xl font-semibold text-white text-center p-5">Characters</h1>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-10 ">
+    @defer (when !loading()){
+    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 gap-1 ">
         @for (character of characters; track character) {
-        <div class="bg-gray-900 rounded-lg shadow p-2">
-            <img [src]="character.thumbnail.path + '.' + character.thumbnail.extension" alt="{{ character.name }}"
-                class="rounded-lg w-full h-64 object-fill">
-            <h2 class="mt-4 text-rose-900">{{ character.name }}</h2>
-        </div>
-        }
-    </div>
-</div>
+        <!-- <div class="relative flex flex-wrap ">
 
-<div class="flex justify-between py-8">
-    <div>
-        <p class="text-white">Page {{ currentPage }} of {{ totalPages }}</p>
+            <div
+                class="relative w-64 h-96 overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-110 hover:z-10">
+                <img [src]="character.thumbnail.path + '.' + character.thumbnail.extension" alt="{{ character.name }}"
+                    class="w-full h-full object-cover ">
+                <div class="absolute bottom-0 w-full h-16 bg-gradient-to-t from-rose-900 to-transparent opacity-90">
+                </div>
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white">
+                    <div class="flex justify-center">                                                
+                        <a class="truncate" [routerLink]="['/characters', character.id]">{{ character.name }}</a>                      
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="relative h-72 overflow-hidden transform transition-all duration-300 hover:scale-110 hover:z-10">
+            <img [src]="character.thumbnail.path + '.' + character.thumbnail.extension" [alt]="character.name"
+                class="w-full h-full object-cover">
+            <div class="absolute bottom-0 w-full h-12 bg-gradient-to-t from-rose-900 to-transparent text-center">
+                <a [routerLink]="['/characters', character.id]" class="text-white text-2xl">{{ character.name | truncate:12  }}</a>
+            </div>
+        </div>
+
+        }
+
     </div>
-    <div class="space-x-2">
-        <button (click)="prevPage()" [disabled]="currentPage === 1" type="button"
-            class="w-50 h-9 bg-rose-900 text-white border cursor-pointer">Previous</button>
-        <button (click)="nextPage()" [disabled]="currentPage >= totalPages" type="button"
-            class="w-50 h-9 bg-rose-900 text-white border cursor-pointer">Next</button>
+    <div class="flex justify-between py-8">
+        <div>
+            <p class="text-white">Page {{ currentPage }} of {{ totalPages }}</p>
+        </div>
+        <div class="space-x-2">
+            <button (click)="prevPage()" [disabled]="currentPage === 1" type="button"
+                class="w-50 h-9 bg-rose-900 text-white border cursor-pointer">Previous</button>
+            <button (click)="nextPage()" [disabled]="currentPage >= totalPages" type="button"
+                class="w-50 h-9 bg-rose-900 text-white border cursor-pointer">Next</button>
+        </div>
     </div>
+    } @placeholder{
+    <div class="flex justify-center items-center h-[50vh]">
+        <app-loading />
+    </div>
+    }
+    <!-- 
+        Agregar los derechos de copyright de Marvel
+     -->
 </div>
+<router-outlet />
